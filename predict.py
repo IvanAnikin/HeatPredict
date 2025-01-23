@@ -45,4 +45,9 @@ if __name__ == "__main__":
     MODEL_PATH = "models/final/heat_map_model.keras" # .h5
     DATA_DIR = "data/Prague/train"
     OUTPUT_DIR = "predicted_images"
-    predict_and_save(MODEL_PATH, DATA_DIR, OUTPUT_DIR, sequence_length=3, target_size=(128, 64))
+    IMAGE_Y = 128      
+    IMAGE_X = 64    
+    SEQUENCE_LEN = 3
+    target_size=(IMAGE_X, IMAGE_Y)
+
+    predict_and_save(MODEL_PATH, DATA_DIR, OUTPUT_DIR, sequence_length=SEQUENCE_LEN, target_size=target_size)

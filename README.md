@@ -14,6 +14,9 @@ python predict.py
 
 ## Internal Data sources:
 
+https://github.com/sklibad/anime
+ create_png(indicator, result, output_path, band_meta["nodata"], False) 
+
 http://thegeoportalenv.eba-gpw3b34j.eu-central-1.elasticbeanstalk.com/index
 
 http://3.75.212.6:8000/ecoten_admin

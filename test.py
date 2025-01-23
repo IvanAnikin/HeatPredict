@@ -66,7 +66,7 @@ def build_model(input_shape=(128, 64, 3, 3)):
     x = layers.Dense(128, activation='relu')(combined)
     x = layers.Dense(IMAGE_X // 4 * IMAGE_Y // 4 * 64, activation='relu')(x)
 
-    x = layers.Reshape((IMAGE_X // 4, IMAGE_Y // 4, 64))(x)
+    x = layers.Reshape((IMAGE_X // 4, IMAGE_Y // 4, 64))(x)  
 
     x = layers.Conv2DTranspose(64, (3, 3), activation='relu', padding='same')(x)
     x = layers.UpSampling2D((2, 2))(x) 
@@ -78,11 +78,12 @@ def build_model(input_shape=(128, 64, 3, 3)):
     model = models.Model(inputs=[evi_branch.input, ndwi_branch.input, lst_branch.input], outputs=x)
     return model
 
+
 if __name__ == "__main__":
 
 
-    IMAGE_X = 128   # 325 (1/4)   
-    IMAGE_Y = 64    # 159 (1/4)
+    IMAGE_X = 64  # 128   # 325 (1/4)   
+    IMAGE_Y = 128 # 64    # 159 (1/4)
     SEQUENCE_LEN = 3
     INDICATORS_COUNT = 3
     BATCH_SIZE = 8
