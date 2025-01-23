@@ -2,3 +2,4 @@ tensorflow
 matplotlib
 numpy
 pillow
+pydot

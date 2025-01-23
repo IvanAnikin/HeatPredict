@@ -1,6 +1,9 @@
 from utils.data_loader import load_data
 from models.utils import build_model
+
 import tensorflow as tf
+from tensorflow.keras.utils import plot_model
+
 import os
 
 # Train: data/Prague/train/LST ? 
@@ -10,6 +13,7 @@ print("Data loaded")
 
 model = build_model(input_shape=(1299, 636, 27))
 print("Model built") 
+plot_model(model, to_file="model_structure.png", show_shapes=True, show_layer_names=True)
 model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 print("Model compied")
 

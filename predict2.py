@@ -42,7 +42,7 @@ def predict_and_save(model_path, data_dir, output_dir, sequence_length=3, target
         pred_img.save(os.path.join(output_dir, f"predicted_image_{i + 1}.png"))
 
 if __name__ == "__main__":
-    MODEL_PATH = "models/final/heat_map_model.keras" # .h5
+    MODEL_PATH = "models/final/heat_map_model.keras"
     DATA_DIR = "data/Prague/train"
     OUTPUT_DIR = "predicted_images"
     predict_and_save(MODEL_PATH, DATA_DIR, OUTPUT_DIR, sequence_length=3, target_size=(128, 64))

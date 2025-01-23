@@ -1,4 +1,5 @@
 import tensorflow as tf
+
 import os
 
 def preprocess_image(image_path, target_size=(1299, 636)):
