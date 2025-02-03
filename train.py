@@ -14,13 +14,16 @@ if __name__ == "__main__":
     IMAGE_X = 64 
     IMAGE_Y = 64
     SEQUENCE_LEN = 3
+    SEQUENCE_STEP = 2
+    FUTURE_STEP = 2
     INDICATORS_COUNT = 3
-    BATCH_SIZE = 8
+    BATCH_SIZE = 16
     EPOCHS = 10
 
     target_size=(IMAGE_X, IMAGE_Y)
     train_ds, val_ds = load_data(r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience", 
-                    batch_size=BATCH_SIZE, sequence_length=SEQUENCE_LEN, target_size=target_size)
+                    batch_size=BATCH_SIZE, sequence_length=SEQUENCE_LEN, sequence_step=SEQUENCE_STEP, 
+                    future_step=FUTURE_STEP, target_size=target_size)
 
     model = build_model(IMAGE_X=IMAGE_X, IMAGE_Y=IMAGE_Y, SEQUENCE_LEN=SEQUENCE_LEN, INDICATORS_COUNT=INDICATORS_COUNT)
     #plot_model(model, to_file="model_structure3.png", show_shapes=True, show_layer_names=True)
