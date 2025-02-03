@@ -19,8 +19,8 @@ if __name__ == "__main__":
     EPOCHS = 10
 
     target_size=(IMAGE_X, IMAGE_Y)
-    train_ds, val_ds = load_data(r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience\abudhabi\T39RZH\indicators", r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience\abudhabi\T39RZH\indicators", batch_size=BATCH_SIZE, 
-                                    sequence_length=SEQUENCE_LEN, target_size=target_size)
+    train_ds, val_ds = load_data(r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience", 
+                    batch_size=BATCH_SIZE, sequence_length=SEQUENCE_LEN, target_size=target_size)
 
     model = build_model(IMAGE_X=IMAGE_X, IMAGE_Y=IMAGE_Y, SEQUENCE_LEN=SEQUENCE_LEN, INDICATORS_COUNT=INDICATORS_COUNT)
     #plot_model(model, to_file="model_structure3.png", show_shapes=True, show_layer_names=True)
