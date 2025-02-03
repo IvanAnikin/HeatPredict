@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     IMAGE_X = 64 
     IMAGE_Y = 64
-    SEQUENCE_LEN = 3
+    SEQUENCE_LEN = 4
     SEQUENCE_STEP = 2
     FUTURE_STEP = 2
     INDICATORS_COUNT = 3

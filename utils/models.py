@@ -162,7 +162,7 @@ def build_model6(input_shape=(128, 64, 3, 3)):
 
 def build_model(IMAGE_X=64, IMAGE_Y=64, SEQUENCE_LEN=3, INDICATORS_COUNT=3):
 
-    input_shape=(IMAGE_X, IMAGE_Y, SEQUENCE_LEN, INDICATORS_COUNT)
+    input_shape=(IMAGE_X, IMAGE_Y, INDICATORS_COUNT, SEQUENCE_LEN)
     
     def branch(input_shape):
         branch_input = Input(shape=input_shape)
