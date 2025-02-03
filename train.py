@@ -1,35 +1,51 @@
 from utils.data_loader import load_data
-from models.utils import build_model
+from utils.models import build_model
 
 import tensorflow as tf
 from tensorflow.keras.utils import plot_model
+from tensorflow.keras.mixed_precision import set_global_policy
 
 import os
 
-# Train: data/Prague/train/LST ? 
-train_ds, val_ds = load_data("data/Prague/train", "data/Prague/val", batch_size=32)
 
-print("Data loaded")
+if __name__ == "__main__":
 
-model = build_model(input_shape=(1299, 636, 27))
-print("Model built") 
-plot_model(model, to_file="model_structure.png", show_shapes=True, show_layer_names=True)
-model.compile(optimizer='adam', loss='mse', metrics=['mae'])
-print("Model compied")
 
-callbacks = [
-    tf.keras.callbacks.ModelCheckpoint(
-        filepath="models/checkpoints/model_checkpoint.h5",
-        save_best_only=True,
-        monitor="val_loss",
-        mode="min"
-    ),
-    tf.keras.callbacks.TensorBoard(log_dir="logs")
-]
+    IMAGE_X = 64 
+    IMAGE_Y = 64
+    SEQUENCE_LEN = 3
+    INDICATORS_COUNT = 3
+    BATCH_SIZE = 8
+    EPOCHS = 10
 
-history = model.fit(train_ds, validation_data=val_ds, epochs=50, callbacks=callbacks)
-print("Model fit complete")
+    target_size=(IMAGE_X, IMAGE_Y)
+    train_ds, val_ds = load_data(r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience\abudhabi\T39RZH\indicators", r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience\abudhabi\T39RZH\indicators", batch_size=BATCH_SIZE, 
+                                    sequence_length=SEQUENCE_LEN, target_size=target_size)
 
-os.makedirs("models/final", exist_ok=True)
-model.save("models/final/heat_map_model.h5")
-print("Model saved")
+    model = build_model(IMAGE_X=IMAGE_X, IMAGE_Y=IMAGE_Y, SEQUENCE_LEN=SEQUENCE_LEN, INDICATORS_COUNT=INDICATORS_COUNT)
+    #plot_model(model, to_file="model_structure3.png", show_shapes=True, show_layer_names=True)
+
+    model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+
+    callbacks = [
+        tf.keras.callbacks.ModelCheckpoint(
+            filepath="models/checkpoints/model_checkpoint.h5",
+            save_best_only=True,
+            monitor="val_loss",
+            mode="min"
+        ),
+        tf.keras.callbacks.TensorBoard(log_dir="logs")
+    ]
+
+    set_global_policy('mixed_float16')
+
+    history = model.fit(
+        train_ds,
+        validation_data=val_ds,
+        epochs=EPOCHS,
+        callbacks=callbacks
+    )
+
+    os.makedirs("models/final", exist_ok=True)
+    model.save("models/final/heat_map_model.keras")
+
