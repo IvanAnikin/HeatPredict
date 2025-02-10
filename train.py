@@ -1,18 +1,23 @@
-from utils.data_loader import load_data
-from utils.models import build_model
+
+
+import os
+import pickle
+import pandas as pd
+import matplotlib.pyplot as plt
 
 import tensorflow as tf
 from tensorflow.keras.utils import plot_model
 from tensorflow.keras.mixed_precision import set_global_policy
 
-import os
+from utils.data_loader import load_data
+from utils.models import build_model
 
 
 if __name__ == "__main__":
 
 
-    IMAGE_X = 64 
-    IMAGE_Y = 64
+    IMAGE_X = 128 
+    IMAGE_Y = 128
     SEQUENCE_LEN = 4
     SEQUENCE_STEP = 2
     FUTURE_STEP = 2
@@ -51,4 +56,11 @@ if __name__ == "__main__":
 
     os.makedirs("models/final", exist_ok=True)
     model.save("models/final/heat_map_model.keras")
+
+    history_df = pd.DataFrame(history.history)
+    history_df.to_csv("training_log.csv", index=False)
+
+    # Save history as a pickle file
+    with open("training_history.pkl", "wb") as f:
+        pickle.dump(history.history, f)
 
