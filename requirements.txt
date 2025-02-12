@@ -6,4 +6,3 @@ pydot
 pandas
 pickle
 graphviz
-pandas
