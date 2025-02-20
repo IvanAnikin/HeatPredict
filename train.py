@@ -16,8 +16,8 @@ from utils.models import build_model
 if __name__ == "__main__":
 
 
-    IMAGE_X = 128 
-    IMAGE_Y = 128
+    IMAGE_X = 512 
+    IMAGE_Y = 512
     SEQUENCE_LEN = 4
     SEQUENCE_STEP = 2
     FUTURE_STEP = 2
@@ -26,12 +26,14 @@ if __name__ == "__main__":
     EPOCHS = 10
 
     target_size=(IMAGE_X, IMAGE_Y)
+
     train_ds, val_ds = load_data(r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience", 
                     batch_size=BATCH_SIZE, sequence_length=SEQUENCE_LEN, sequence_step=SEQUENCE_STEP, 
                     future_step=FUTURE_STEP, target_size=target_size)
 
-    model = build_model(IMAGE_X=IMAGE_X, IMAGE_Y=IMAGE_Y, SEQUENCE_LEN=SEQUENCE_LEN, INDICATORS_COUNT=INDICATORS_COUNT)
+    model = build_model(input_shape=(IMAGE_X, IMAGE_Y, INDICATORS_COUNT * SEQUENCE_LEN))
     #plot_model(model, to_file="model_structure3.png", show_shapes=True, show_layer_names=True)
+
 
     model.compile(optimizer='adam', loss='mse', metrics=['mae'])
 
@@ -44,7 +46,7 @@ if __name__ == "__main__":
         ),
         tf.keras.callbacks.TensorBoard(log_dir="logs")
     ]
-
+    
     set_global_policy('mixed_float16')
 
     history = model.fit(

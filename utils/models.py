@@ -160,7 +160,7 @@ def build_model6(input_shape=(128, 64, 3, 3)):
     return model
 
 
-def build_model(IMAGE_X=64, IMAGE_Y=64, SEQUENCE_LEN=3, INDICATORS_COUNT=3):
+def build_model_3inputs(IMAGE_X=64, IMAGE_Y=64, SEQUENCE_LEN=3, INDICATORS_COUNT=3):
 
     input_shape=(IMAGE_X, IMAGE_Y, INDICATORS_COUNT, SEQUENCE_LEN)
     
@@ -193,5 +193,49 @@ def build_model(IMAGE_X=64, IMAGE_Y=64, SEQUENCE_LEN=3, INDICATORS_COUNT=3):
     x = layers.Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
 
     model = models.Model(inputs=[evi_branch.input, ndwi_branch.input, lst_branch.input], outputs=x)
+    return model
+
+# def build_model(IMAGE_X=128, IMAGE_Y=128, SEQUENCE_LEN=3, INDICATORS_COUNT=3):
+#     input_shape = (IMAGE_X, IMAGE_Y, INDICATORS_COUNT * SEQUENCE_LEN)
+#     inputs = Input(shape=input_shape)
+
+#     x = layers.Conv2D(32, (3, 3), activation='relu', padding='same')(inputs)
+#     x = layers.MaxPooling2D((2, 2))(x)
+#     x = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(x)
+#     x = layers.MaxPooling2D((2, 2))(x)
+
+#     x = layers.Conv2D(128, (3, 3), activation='relu', padding='same')(x)
+#     x = layers.UpSampling2D((2, 2))(x)
+#     x = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(x)
+#     x = layers.UpSampling2D((2, 2))(x)
+
+#     outputs = layers.Conv2D(1, (1, 1), activation='sigmoid')(x)
+
+#     model = models.Model(inputs, outputs)
+#     return model
+
+
+def build_model(input_shape):
+    inputs = Input(shape=input_shape)
+
+    c1 = layers.Conv2D(16, (3, 3), activation='relu', padding='same')(inputs)
+    p1 = layers.MaxPooling2D((2, 2))(c1)
+
+    c2 = layers.Conv2D(32, (3, 3), activation='relu', padding='same')(p1)
+    p2 = layers.MaxPooling2D((2, 2))(c2)
+
+    c3 = layers.Conv2D(64, (3, 3), activation='relu', padding='same')(p2)
+
+    u4 = layers.UpSampling2D((2, 2))(c3)
+    u4 = layers.concatenate([u4, c2]) 
+    c4 = layers.Conv2D(32, (3, 3), activation='relu', padding='same')(u4)
+
+    u5 = layers.UpSampling2D((2, 2))(c4)
+    u5 = layers.concatenate([u5, c1]) 
+    c5 = layers.Conv2D(16, (3, 3), activation='relu', padding='same')(u5)
+
+    outputs = layers.Conv2D(1, (1, 1), activation='sigmoid')(c5)
+
+    model = models.Model(inputs, outputs)
     return model
 
