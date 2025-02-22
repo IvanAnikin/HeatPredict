@@ -16,8 +16,8 @@ from utils.models import build_model
 if __name__ == "__main__":
 
 
-    IMAGE_X = 512 
-    IMAGE_Y = 512
+    IMAGE_X = 64 
+    IMAGE_Y = 64
     SEQUENCE_LEN = 4
     SEQUENCE_STEP = 2
     FUTURE_STEP = 2
@@ -32,7 +32,7 @@ if __name__ == "__main__":
                     future_step=FUTURE_STEP, target_size=target_size)
 
     model = build_model(input_shape=(IMAGE_X, IMAGE_Y, INDICATORS_COUNT * SEQUENCE_LEN))
-    #plot_model(model, to_file="model_structure3.png", show_shapes=True, show_layer_names=True)
+    plot_model(model, to_file="model_structure3.png", show_shapes=True, show_layer_names=True)
 
 
     model.compile(optimizer='adam', loss='mse', metrics=['mae'])
