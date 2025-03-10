@@ -1,13 +1,22 @@
 import tensorflow as tf
-
+from matplotlib import cm
 import os
 
-def preprocess_image(image_path, target_size=(1299, 636)):
+
+def preprocess_image(image_path, target_size=(128, 128)):
     img = tf.io.read_file(image_path)
-    img = tf.image.decode_png(img, channels=1)
-    img = tf.image.resize(img, target_size)  
+    img = tf.image.decode_png(img, channels=1) 
+    img = tf.image.resize(img, target_size)
     img = img / 255.0  
     return img
+
+def apply_colormap(image, colormap='jet'):
+    image_normalized = (image - tf.reduce_min(image)) / (tf.reduce_max(image) - tf.reduce_min(image))
+    colormap_func = cm.get_cmap(colormap)
+    image_colored = colormap_func(image_normalized.numpy()) 
+    image_colored = image_colored[..., :3]  
+    return image_colored
+
 
 
 def load_data_3inputs(root_dir, batch_size=32, sequence_length=3, sequence_step=1, future_step=1, target_size=(64, 64)):

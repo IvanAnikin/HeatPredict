@@ -4,12 +4,8 @@ import os
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import array_to_img
 
-def preprocess_image(image_path, target_size=(128, 128)):
-    img = tf.io.read_file(image_path)
-    img = tf.image.decode_png(img, channels=1) 
-    img = tf.image.resize(img, target_size)
-    img = img / 255.0  
-    return img
+from utils.data_loader import preprocess_image, apply_colormap
+
 
 
 def prepare_input_sequences(data_dir, sequence_length=3, sequence_step=1, target_size=(128, 128)):
@@ -68,14 +64,16 @@ def predict_and_save(model_path, data_dir, output_dir, sequence_length=3, sequen
     os.makedirs(output_dir, exist_ok=True)
     for i, pred in enumerate(predictions):
         pred_img = array_to_img(pred)
+        pred_img = apply_colormap(pred_img)
+        pred_img = array_to_img(pred_img)
         pred_img.save(os.path.join(output_dir, f"predicted_image_{i + 1}.png"))
 
 if __name__ == "__main__":
     MODEL_PATH = "models/final/heat_map_model.keras" 
     DATA_DIR = r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience\abudhabi\T39RZH\indicators"
     OUTPUT_DIR = "predicted_images"
-    IMAGE_Y = 512
-    IMAGE_X = 512
+    IMAGE_Y = 128
+    IMAGE_X = 128
     SEQUENCE_LEN = 4
     SEQUENCE_STEP = 2
     target_size = (IMAGE_X, IMAGE_Y)
