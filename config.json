@@ -1,9 +1,12 @@
 {
     "MODEL_PATH": "models/final/heat_map_model.keras",
     "DATA_DIR": "C:\\Users\\ivana\\Downloads\\Bakalarka\\anime\\urban_resilience",
-    "IMAGE_Y": 128,
-    "IMAGE_X": 128,
+    "IMAGE_Y": 512,
+    "IMAGE_X": 512,
     "SEQUENCE_LEN": 4,
     "SEQUENCE_STEP": 2,
-    "FUTURE_STEP": 2
+    "FUTURE_STEP": 2,
+    "INDICATORS_COUNT": 3,
+    "BATCH_SIZE": 4,
+    "EPOCHS": 10
 }

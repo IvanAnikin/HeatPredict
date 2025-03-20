@@ -4,6 +4,7 @@ import os
 import pickle
 import pandas as pd
 import matplotlib.pyplot as plt
+import json
 
 import tensorflow as tf
 from tensorflow.keras.utils import plot_model
@@ -16,18 +17,23 @@ from utils.models import build_model
 if __name__ == "__main__":
 
 
-    IMAGE_X = 128 
-    IMAGE_Y = 128
-    SEQUENCE_LEN = 4
-    SEQUENCE_STEP = 2
-    FUTURE_STEP = 2
-    INDICATORS_COUNT = 3
-    BATCH_SIZE = 16
-    EPOCHS = 10
+    with open('config.json', 'r') as file:
+        config = json.load(file)
+    
+    MODEL_PATH = config['MODEL_PATH']
+    DATA_DIR = config['DATA_DIR']
+    IMAGE_Y = config['IMAGE_Y']
+    IMAGE_X = config['IMAGE_X']
+    SEQUENCE_LEN = config['SEQUENCE_LEN']
+    SEQUENCE_STEP = config['SEQUENCE_STEP']
+    FUTURE_STEP = config['FUTURE_STEP']
+    INDICATORS_COUNT = config['INDICATORS_COUNT']
+    BATCH_SIZE = config['BATCH_SIZE']
+    EPOCHS = config['EPOCHS']
 
     target_size=(IMAGE_X, IMAGE_Y)
 
-    train_ds, val_ds = load_data(r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience", 
+    train_ds, val_ds = load_data(DATA_DIR, 
                     batch_size=BATCH_SIZE, sequence_length=SEQUENCE_LEN, sequence_step=SEQUENCE_STEP, 
                     future_step=FUTURE_STEP, target_size=target_size)
 
@@ -56,7 +62,7 @@ if __name__ == "__main__":
     )
 
     os.makedirs("models/final", exist_ok=True)
-    model.save("models/final/heat_map_model.keras")
+    model.save(MODEL_PATH)
 
     history_df = pd.DataFrame(history.history)
     history_df.to_csv("training_log.csv", index=False)

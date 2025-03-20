@@ -44,6 +44,7 @@ if __name__ == "__main__":
     SEQUENCE_LEN = config['SEQUENCE_LEN']
     SEQUENCE_STEP = config['SEQUENCE_STEP']
     FUTURE_STEP = config['FUTURE_STEP']
+    
     target_size = (IMAGE_X, IMAGE_Y)
 
     predict_and_display(MODEL_PATH, DATA_DIR, sequence_length=SEQUENCE_LEN, sequence_step=SEQUENCE_STEP, future_step=FUTURE_STEP, target_size=target_size)
