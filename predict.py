@@ -1,6 +1,9 @@
-import tensorflow as tf
+
 import numpy as np
 import os
+import json
+
+import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import array_to_img
 
@@ -70,12 +73,23 @@ def predict_and_save(model_path, data_dir, output_dir, sequence_length=3, sequen
 
 if __name__ == "__main__":
     MODEL_PATH = "models/final/heat_map_model.keras" 
-    DATA_DIR = r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience\abudhabi\T39RZH\indicators"
-    OUTPUT_DIR = "predicted_images"
-    IMAGE_Y = 128
-    IMAGE_X = 128
-    SEQUENCE_LEN = 4
-    SEQUENCE_STEP = 2
+    #DATA_DIR = r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience\abudhabi\T39RZH\indicators"
+    DATA_DIR = r"C:\Users\ivana\Downloads\Bakalarka\anime\urban_resilience\boston\T19TCG\indicators"
+    OUTPUT_DIR = "predicted_images_boston"
+    
+    
+    with open('config.json', 'r') as file:
+        config = json.load(file)
+
+    IMAGE_Y = config['IMAGE_Y']
+    IMAGE_X = config['IMAGE_X']
+    SEQUENCE_LEN = config['SEQUENCE_LEN']
+    SEQUENCE_STEP = config['SEQUENCE_STEP']
+    # IMAGE_Y = 128
+    # IMAGE_X = 128
+    # SEQUENCE_LEN = 4
+    # SEQUENCE_STEP = 2
+    
     target_size = (IMAGE_X, IMAGE_Y)
 
     predict_and_save(MODEL_PATH, DATA_DIR, OUTPUT_DIR, sequence_length=SEQUENCE_LEN, sequence_step=SEQUENCE_STEP, target_size=target_size)

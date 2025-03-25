@@ -8,5 +8,5 @@
     "FUTURE_STEP": 10,
     "INDICATORS_COUNT": 3,
     "BATCH_SIZE": 4,
-    "EPOCHS": 50
+    "EPOCHS": 100
 }
